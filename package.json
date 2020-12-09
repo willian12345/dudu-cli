@@ -1,6 +1,6 @@
 {
   "name": "dudu-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "dudu-cli 嘟嘟 vue 多页应用脚手架",
   "main": "index.js",
   "bin": "ergou.js",

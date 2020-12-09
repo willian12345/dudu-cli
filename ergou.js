@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const os = require('os')
 const program = require('commander')
 const inquirer = require('inquirer');
 const ora = require('ora')
@@ -38,7 +38,7 @@ const questions = [
     type: 'input',
     name: 'author',
     message: '作者',
-    default: 'alien'
+    default: os.userInfo().username
   }
 ]
 
@@ -57,20 +57,40 @@ function deleteFolderRecursive(path) {
   }
 };
 
+/**
+ * 生成...
+ */
+function getDotCurry(dotLen){
+  let i = 0
+  return function(){
+    if(i > dotLen){
+      i = 0
+    }else{
+      i++
+    }
+    return new Array(i).join('.')
+  }
+}
 
 /**
  * 下载多页应用模板并解压
  */
 const downloadTemplate = async function(answers) {
-  console.log('正从 github 上下载模板如果失败，可能需要科学上网')
+  console.log('正从 Github 下载模板如果失败，可能需要科学上网')
   spinner.start()
   spinner.color = 'green';
+  const genDot = getDotCurry(3)
   const downloader = new Downloader({     
     url: zipUrl,     
     directory: tempDownloadDir,
     fileName: zipName,
     onProgress: function(percentage){
-      spinner.text = `包下载进度: ${percentage} %`;
+      // 网络不稳定时percentage有一定机率会变成 NaN
+      if(isNaN(percentage)){
+        spinner.text = `模板正在生成请稍后${genDot()}`;
+      }else{
+        spinner.text = `模板生成进度: ${percentage} %`;
+      }
     }      
   })
 
