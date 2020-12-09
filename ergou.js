@@ -9,7 +9,7 @@ const path = require('path')
 const admZip = require('adm-zip')
 const Downloader = require('nodejs-file-downloader')
 
-const zipUrl = 'https://yogo-file-test.oss-cn-hangzhou.aliyuncs.com/home/audio/20201207_733514D16EC44F39A7E5B44FC2F52CFE.zip'
+const zipUrl = 'https://github.com/willian12345/vue-multipage/archive/master.zip'
 const zipName = 'proejct.zip'
 const unzipedDirName = 'vue-multipage-master'
 const tempDownloadDir = './.downloads/'
@@ -62,13 +62,14 @@ function deleteFolderRecursive(path) {
  * 下载多页应用模板并解压
  */
 const downloadTemplate = async function(answers) {
+  console.log('正从 github 上下载模板如果失败，可能需要科学上网')
   spinner.start()
   spinner.color = 'green';
   const downloader = new Downloader({     
     url: zipUrl,     
     directory: tempDownloadDir,
     fileName: zipName,
-    onProgress:function(percentage){
+    onProgress: function(percentage){
       spinner.text = `包下载进度: ${percentage} %`;
     }      
   })
